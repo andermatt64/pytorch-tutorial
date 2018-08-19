@@ -1,5 +1,9 @@
 *.pkl
+*.ckpt
+.DS_Store
 *.zip
 data/
 .ipynb_checkpoints
-
+ENV/
+examples/cifar10
+examples/mnist

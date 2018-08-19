@@ -106,7 +106,6 @@ train_dataset = torchvision.datasets.CIFAR10(root='../../data/',
                                              train=True, 
                                              transform=transforms.ToTensor(),
                                              download=True)
-
 # Fetch one data pair (read data from disk).
 image, label = train_dataset[0]
 print (image.size())
@@ -123,10 +122,20 @@ data_iter = iter(train_loader)
 # Mini-batch images and labels.
 images, labels = data_iter.next()
 
+linear = nn.Linear(32 * 32 * 3, 10)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(linear.parameters(), lr=0.01)
+
 # Actual usage of the data loader is as below.
 for images, labels in train_loader:
     # Training code should be written here.
-    pass
+    pred = linear(images.view(-1, 32 * 32 * 3))
+
+    optimizer.zero_grad()
+    loss = criterion(torch.squeeze(pred), labels)
+    print("loss = {}".format(loss))
+    loss.backward()
+    optimizer.step()
 
 
 # ================================================================== #
